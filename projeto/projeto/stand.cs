@@ -7,35 +7,24 @@ using System.Threading.Tasks;
 
 namespace projeto
 {
-    class stand
+    class veiculo
     {
         private string marca;
         private string modelo;
-        private string versao;
+        private int cilindrada;
         private string tipo_auto;
         private float preco;
 
-        public stand(string _tipo_auto, float _preco, string _caracteristicas)
+        public veiculo(string _tipo_auto, float _preco, string _modelo, string _marca)
         {
             _tipo_auto = tipo_auto;
             _preco = preco;
+            _modelo = modelo;
+            _marca = marca;
             
         }
 
-       public void filtro_carro()
-       {
-
-       }
-       
-       
-
-       public void filtro_preco()
-       {
-
-       }
-        
-
-
+      
        
 
     }
