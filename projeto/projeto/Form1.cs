@@ -21,6 +21,7 @@ namespace projeto
     {
 
         OleDbConnection database;
+        string sqlQueryString;
         public Form1()
         {
             InitializeComponent();
@@ -50,19 +51,26 @@ namespace projeto
             dataGridView1.Columns[0].Width = 60;
             dataGridView1.Columns[1].Width = 150;
             dataGridView1.Columns[2].Width = 75;
-           
+
 
         }
 
         public void db_connect()
         {
             string connectionString = "Provider=Microsoft.ACE.OLEDB.12.0; Data Source = stand1.accdb";
-    try
+            try
             {
-                 database = new OleDbConnection(connectionString);
+                database = new OleDbConnection(connectionString);
                 database.Open();
-                string queryString = "SELECT * FROM Veiculos;";
-                
+                string queryString;
+                if (combobox.Text == "Sem filtro")
+                    queryString = "SELECT * FROM Veiculos;";
+
+
+                else
+                    queryString = "SELECT * FROM Veiculos WHERE tipo_veiculo = '" + combobox.Text + "';";
+
+
                 loadDataGrid(queryString);
 
             }
@@ -72,12 +80,78 @@ namespace projeto
                 return;
             }
         }
-        
+
 
         private void button1_Click(object sender, EventArgs e)
         {
             db_connect();
+            string queryString;
+            if (string.IsNullOrWhiteSpace(textBox_min.Text))
+            {
+                queryString = "SELECT * FROM Veiculos ;";
+            }
+
+            else
+                queryString = "SELECT * FROM Veiculos WHERE preco >= '" + textBox_min.Text + "';";
+
+
+            if (string.IsNullOrWhiteSpace(textBox_max.Text))
+            {
+                queryString = "SELECT * FROM Veiculos WHERE preco ;";
+            }
+
+            else
+                queryString = "SELECT * FROM Veiculos WHERE preco <= '" + textBox_max.Text + "';";
+
             
+
+
+        }
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+
+            string connectionString = "Provider=Microsoft.ACE.OLEDB.12.0; Data Source = stand1.accdb";
+            try
+            {
+                database = new OleDbConnection(connectionString);
+                database.Open();
+                string queryString = "SELECT DISTINCT tipo_veiculo FROM Veiculos;";
+
+                OleDbConnection connection = new OleDbConnection(connectionString);
+                // Create data adapter object 
+                OleDbDataAdapter dataAdapter = new OleDbDataAdapter(queryString, connection);
+                // Create a dataset object and fill with data using data adapter's Fill method 
+                DataSet dataSet = new DataSet();
+                dataAdapter.Fill(dataSet, "Veiculos");
+
+                // Attach dataset's DefaultView to the combobox 
+                combobox.DataSource = dataSet.Tables["Veiculos"].DefaultView;
+                combobox.DisplayMember = "tipo_veiculo";
+                // Attach dataset's DefaultView to the combobox 
+                // combobox.DataSource = dataSet.Tables["customers"].DefaultView;
+                // combobox.DisplayMember = "tipo_veiculo";
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
+            }
+        }
+
+        private void checkBox_ativa_filtro_CheckedChanged(object sender, EventArgs e)
+        {
+            combobox.Enabled = true;
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
