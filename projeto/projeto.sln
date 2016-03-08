@@ -6,9 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "projeto", "projeto\projeto.csproj", "{0F791381-B36F-4C66-B5F3-8D0135BCD819}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B55D66CC-D9D9-47CE-8E3B-42EC5E4409E7}"
-	ProjectSection(SolutionItems) = preProject
-		stand1.accdb = stand1.accdb
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

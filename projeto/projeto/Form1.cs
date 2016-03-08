@@ -57,7 +57,7 @@ namespace projeto
 
         public void db_connect()
         {
-            string connectionString = "Provider=Microsoft.ACE.OLEDB.12.0; Data Source = stand1.accdb";
+            string connectionString = "Provider=Microsoft.ACE.OLEDB.12.0; Data Source = stand.accdb";
             try
             {
                 database = new OleDbConnection(connectionString);
@@ -92,7 +92,25 @@ namespace projeto
             }
 
             else
-                queryString = "SELECT * FROM Veiculos WHERE preco >= '" + textBox_min.Text + "';";
+                queryString = "SELECT * FROM Veiculos WHERE preco >= " + textBox_min.Text + ";";
+
+            database = new OleDbConnection(connectionString);
+            database.Open();
+            OleDbConnection connection = new OleDbConnection(connectionString);
+            // Create data adapter object 
+            OleDbDataAdapter dataAdapter = new OleDbDataAdapter(queryString, connection);
+            // Create a dataset object and fill with data using data adapter's Fill method 
+            DataSet dataSet = new DataSet();
+            dataAdapter.Fill(dataSet, "Veiculos");
+
+            // Attach dataset's DefaultView to the combobox 
+            combobox.DataSource = dataSet.Tables["Veiculos"].DefaultView;
+            combobox.DisplayMember = "tipo_veiculo";
+            // Attach dataset's DefaultView to the combobox 
+            // combobox.DataSource = dataSet.Tables["customers"].DefaultView;
+            // combobox.DisplayMember = "tipo_veiculo";
+
+
 
 
             if (string.IsNullOrWhiteSpace(textBox_max.Text))
@@ -101,9 +119,10 @@ namespace projeto
             }
 
             else
-                queryString = "SELECT * FROM Veiculos WHERE preco <= '" + textBox_max.Text + "';";
+                queryString = "SELECT * FROM Veiculos WHERE preco <= " + textBox_max.Text + ";";
+               
 
-            
+
 
 
         }
@@ -111,7 +130,7 @@ namespace projeto
         {
 
 
-            string connectionString = "Provider=Microsoft.ACE.OLEDB.12.0; Data Source = stand1.accdb";
+            string connectionString = "Provider=Microsoft.ACE.OLEDB.12.0; Data Source = stand.accdb";
             try
             {
                 database = new OleDbConnection(connectionString);
