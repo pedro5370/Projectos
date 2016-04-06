@@ -86,41 +86,34 @@ namespace projeto
         {
             db_connect();
             string queryString;
-            if (string.IsNullOrWhiteSpace(textBox_min.Text))
+
+            //os dois vazios
+            if (string.IsNullOrWhiteSpace(textBox_min.Text) == true && string.IsNullOrWhiteSpace(textBox_max.Text) == true)
             {
-                queryString = "SELECT * FROM Veiculos ;";
+                queryString = "SELECT * FROM Veiculos ;";      
+            }
+            //min preenchido e max vazio
+            if (string.IsNullOrWhiteSpace(textBox_min.Text) == false && string.IsNullOrWhiteSpace(textBox_max.Text) == true)
+            {
+                queryString = "SELECT * FROM Veiculos WHERE preco >= " + int.Parse(textBox_min.Text) +";";
+                loadDataGrid(queryString);
             }
 
-            else
-                queryString = "SELECT * FROM Veiculos WHERE preco >= " + textBox_min.Text + ";";
 
-            database = new OleDbConnection(connectionString);
-            database.Open();
-            OleDbConnection connection = new OleDbConnection(connectionString);
-            // Create data adapter object 
-            OleDbDataAdapter dataAdapter = new OleDbDataAdapter(queryString, connection);
-            // Create a dataset object and fill with data using data adapter's Fill method 
-            DataSet dataSet = new DataSet();
-            dataAdapter.Fill(dataSet, "Veiculos");
-
-            // Attach dataset's DefaultView to the combobox 
-            combobox.DataSource = dataSet.Tables["Veiculos"].DefaultView;
-            combobox.DisplayMember = "tipo_veiculo";
-            // Attach dataset's DefaultView to the combobox 
-            // combobox.DataSource = dataSet.Tables["customers"].DefaultView;
-            // combobox.DisplayMember = "tipo_veiculo";
-
-
-
-
-            if (string.IsNullOrWhiteSpace(textBox_max.Text))
+            //os dois preenchidos
+            if (string.IsNullOrWhiteSpace(textBox_min.Text) == false && string.IsNullOrWhiteSpace(textBox_max.Text) == false)
             {
-                queryString = "SELECT * FROM Veiculos WHERE preco ;";
+                queryString = "SELECT * FROM Veiculos WHERE preco >=" + int.Parse(textBox_min.Text) + " AND preco <= " + int.Parse(textBox_max.Text) +";";
+                loadDataGrid(queryString);
+            }
+            //max preenchido e min vazio
+            if (string.IsNullOrWhiteSpace(textBox_min.Text) == true && string.IsNullOrWhiteSpace(textBox_max.Text) == false)
+            {
+                queryString = "SELECT * FROM Veiculos WHERE preco <= " + int.Parse(textBox_max.Text) + ";";
+                loadDataGrid(queryString);
             }
 
-            else
-                queryString = "SELECT * FROM Veiculos WHERE preco <= " + textBox_max.Text + ";";
-               
+
 
 
 
